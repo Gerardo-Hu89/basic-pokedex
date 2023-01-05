@@ -1,0 +1,90 @@
+@keyframes swing {
+  30% {
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+  }
+  50% {
+    -webkit-transform: translateY(3px);
+    transform: translateY(3px);
+  }
+}
+.swing:hover {
+  -webkit-animation: swing 0.5s ease;
+  animation: swing 0.5s ease;
+  -webkit-animation-iteration-count: 0.5;
+  animation-iteration-count: 0.5;
+}
+
+
+.grass {
+  color: black;
+  background: #9bcc50;
+}
+.poison {
+  color: white;
+  background: #b97fc9;
+}
+.fire {
+  color: white;
+  background: #fd7d24;
+}
+.water {
+  color: white;
+  background: #4592c4;
+}
+.flying {
+  color: black;
+  background: linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+}
+.bug {
+  color: white;
+  background: #729f3f;
+}
+.normal {
+  color: black;
+  background: #a4acaf;
+}
+.electric {
+  color: black;
+  background: #eed535;
+}
+.ground {
+  color: black;
+  background: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+}
+.fairy {
+  color: black;
+  background: #fdb9e9;
+}
+.fighting {
+  color: white;
+  background: #d56723;
+}
+.psychic {
+  color: white;
+  background: #f366b9;
+}
+.rock {
+  color: white;
+  background: #a38c21;
+}
+.steel {
+  color: black;
+  background: #9eb7b8;
+}
+.ice {
+  color: black;
+  background: #51c4e7;
+}
+.ghost {
+  color: white;
+  background: #7b62a3;
+}
+.dark {
+  color: white;
+  background: #707070;
+}
+.dragon {
+  color: white;
+  background: linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+}
