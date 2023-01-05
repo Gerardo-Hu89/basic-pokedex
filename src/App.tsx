@@ -6,9 +6,7 @@ function App() {
       <div className='box'>
         <div className='container'>
           <h1 className='title'>Hello World</h1>
-          <p className='subtitle'>
-            My first website with <strong>Bulma</strong>!
-          </p>
+          <p className='subtitle'>Asd</p>
         </div>
       </div>
     </section>
