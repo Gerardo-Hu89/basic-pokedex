@@ -1,19 +1,46 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PokemonData } from '../utils/types';
 import { getLabelColor, pokemons } from '../utils/utils';
 import './styles.css';
 
 export const Body = (): JSX.Element => {
+  const [startInifinite, setStartInfinite] = useState(false);
   const [data, setData] = useState<Array<PokemonData>>(pokemons.slice(0, 12));
+  const observerElement = useRef(null);
 
-  const getNext = (): void => {
+  const getNext = useCallback(() => {
     const getNextPokemons = pokemons.slice(data.length, data.length + 12);
     const mergePokemons = [...data, ...getNextPokemons];
     setData(mergePokemons);
+  }, [data]);
+
+  const hideButton = () => {
+    setStartInfinite(true);
+    getNext();
   };
 
-  console.log(data);
+  console.log(data.length, pokemons.length);
   // mobile, tablet, desktop, widescreen, fullhd
+
+  const handleObserver = useCallback(
+    (entries: any) => {
+      const isEnd = data.length !== pokemons.length;
+      const [target] = entries as [Record<string, string>];
+      if (target.isIntersecting && startInifinite && isEnd) {
+        getNext();
+      }
+    },
+    [data.length, getNext, startInifinite],
+  );
+
+  useEffect(() => {
+    const option = { threshold: 0 };
+    const element = observerElement.current;
+    const observer = new IntersectionObserver(handleObserver, option);
+    observer.observe(element as unknown as Element);
+
+    return () => observer.unobserve(element as unknown as Element);
+  }, [handleObserver]);
 
   return (
     <div className='section'>
@@ -22,7 +49,7 @@ export const Body = (): JSX.Element => {
           return (
             <div
               key={`${item.name}`}
-              className='swing column is-full-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen'
+              className='swing column is-full-mobile is-one-third-tablet is-one-quarter-desktop is-one-quarter-widescreen'
             >
               <div className='has-text-centered' style={{ background: '#f2f2f2' }}>
                 <img src={item.ThumbnailImage} alt={item.ThumbnailAltText} />
@@ -39,10 +66,12 @@ export const Body = (): JSX.Element => {
         })}
       </div>
       <div className='columns is-mobile is-multiline is-centered'>
-        <div className='column is-half has-text-centered'>
-          <button onClick={getNext} className='button is-dark'>
-            See more
-          </button>
+        <div ref={observerElement} className='column is-half has-text-centered'>
+          {!startInifinite && (
+            <button onClick={hideButton} className='button is-dark'>
+              See more
+            </button>
+          )}
         </div>
       </div>
     </div>
