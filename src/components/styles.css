@@ -15,6 +15,13 @@
   animation-iteration-count: 0.5;
 }
 
+.labels {
+  color: #ffffff;
+  white-space: normal;
+  text-transform: none;
+  word-break: break-word;
+  font-family: "Flexo-Medium",arial,sans-serif;
+}
 
 .grass {
   color: black;
@@ -24,13 +31,22 @@
   color: white;
   background: #b97fc9;
 }
+.poison:hover {
+  color: white;
+}
 .fire {
   color: white;
   background: #fd7d24;
 }
+.fire:hover {
+  color: white;
+}
 .water {
   color: white;
   background: #4592c4;
+}
+.water:hover {
+  color: white;
 }
 .flying {
   color: black;
@@ -39,6 +55,9 @@
 .bug {
   color: white;
   background: #729f3f;
+}
+.bug:hover {
+  color: white;
 }
 .normal {
   color: black;
@@ -60,13 +79,22 @@
   color: white;
   background: #d56723;
 }
+.fighting:hover {
+  color: white;
+}
 .psychic {
   color: white;
   background: #f366b9;
 }
+.psychic:hover {
+  color: white;
+}
 .rock {
   color: white;
   background: #a38c21;
+}
+.rock:hover {
+  color: white;
 }
 .steel {
   color: black;
@@ -80,11 +108,20 @@
   color: white;
   background: #7b62a3;
 }
+.ghost:hover {
+  color: white;
+}
 .dark {
   color: white;
   background: #707070;
 }
+.dark:hover {
+  color: white;
+}
 .dragon {
   color: white;
   background: linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+}
+.dragon:hover {
+  color: white;
 }

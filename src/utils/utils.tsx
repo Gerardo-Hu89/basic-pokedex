@@ -1,7 +1,7 @@
 import { PokemonData } from './types';
 import PkmList from '../data/pokemon.min.json';
 
-export const getLabelColor = (type: string, name: string) => {
+export const getLabelColor = (type: string, name: string): JSX.Element => {
   const formatType = type.charAt(0).toUpperCase() + type.slice(1);
   return (
     <button
@@ -9,6 +9,7 @@ export const getLabelColor = (type: string, name: string) => {
       style={{
         minWidth: '40%',
         maxWidth: '40%',
+        cursor: 'default',
         fontWeight: 'bold',
       }}
       className={`button is-small ${type}`}
@@ -29,3 +30,8 @@ export const pokemons = PkmList.reduce((p: PokemonData[], c) => {
   }
   return p;
 }, []);
+
+export const inchesToFeet = (height: number): string => {
+  const [feets, inches] = (height / 12).toFixed(2).split('.');
+  return `${feets}' ${inches}"`;
+};

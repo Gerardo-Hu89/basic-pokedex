@@ -1,29 +1,37 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { AppContext } from '../context/appContext';
 import { PokemonData } from '../utils/types';
 import { getLabelColor, pokemons } from '../utils/utils';
+import { Modal } from './modal';
 import './styles.css';
 
 export const Body = (): JSX.Element => {
+  const [isVisible, setIsVisible] = useState(false);
   const [startInifinite, setStartInfinite] = useState(false);
   const [data, setData] = useState<Array<PokemonData>>(pokemons.slice(0, 12));
+  const [pokemonData, setPokemonData] = useState<PokemonData | undefined>(undefined);
   const observerElement = useRef(null);
+  const context = useContext(AppContext);
 
-  const getNext = useCallback(() => {
+  const getNext = useCallback((): void => {
     const getNextPokemons = pokemons.slice(data.length, data.length + 12);
     const mergePokemons = [...data, ...getNextPokemons];
     setData(mergePokemons);
   }, [data]);
 
-  const hideButton = () => {
+  const hideButton = (): void => {
+    context?.setShowButton(true);
     setStartInfinite(true);
     getNext();
   };
 
-  console.log(data.length, pokemons.length);
-  // mobile, tablet, desktop, widescreen, fullhd
+  const setModalVisibility = (pokemon?: PokemonData): void => {
+    !isVisible ? setPokemonData(pokemon) : setPokemonData(undefined);
+    setIsVisible(!isVisible);
+  };
 
   const handleObserver = useCallback(
-    (entries: any) => {
+    (entries: any): void => {
       const isEnd = data.length !== pokemons.length;
       const [target] = entries as [Record<string, string>];
       if (target.isIntersecting && startInifinite && isEnd) {
@@ -44,6 +52,9 @@ export const Body = (): JSX.Element => {
 
   return (
     <div className='section'>
+      {isVisible && (
+        <Modal isVisible={isVisible} setIsVisible={setModalVisibility} pokemon={pokemonData} />
+      )}
       <div className='columns is-multiline'>
         {data.map((item: PokemonData) => {
           return (
@@ -51,7 +62,11 @@ export const Body = (): JSX.Element => {
               key={`${item.name}`}
               className='swing column is-full-mobile is-one-third-tablet is-one-quarter-desktop is-one-quarter-widescreen'
             >
-              <div className='has-text-centered' style={{ background: '#f2f2f2' }}>
+              <div
+                onClick={() => setModalVisibility(item)}
+                className='has-text-centered'
+                style={{ background: '#f2f2f2', cursor: 'pointer' }}
+              >
                 <img src={item.ThumbnailImage} alt={item.ThumbnailAltText} />
               </div>
               <span style={{ color: '#919191', fontSize: '80%', paddingTop: '2px' }}>

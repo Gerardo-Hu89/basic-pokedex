@@ -1,6 +1,8 @@
 import 'bulma/css/bulma.min.css';
 import { Body } from './components/body';
+import { GoToTopButton } from './components/goToTopButton';
 import { Header } from './components/header';
+import { AppProvider } from './context/appContext';
 
 export const App = (): JSX.Element => (
   <div
@@ -9,10 +11,13 @@ export const App = (): JSX.Element => (
       background: '#fff url("https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png")',
     }}
   >
-    <div className='box container'>
-      <Header />
-      <Body />
-    </div>
+    <AppProvider>
+      <div className='box container'>
+        <Header />
+        <Body />
+        <GoToTopButton />
+      </div>
+    </AppProvider>
   </div>
 );
 
