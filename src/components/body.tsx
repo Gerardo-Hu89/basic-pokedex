@@ -1,12 +1,12 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { AppContext } from '../context/appContext';
-import { PokemonData } from '../utils/types';
-import { getLabelColor, pokemons } from '../utils/utils';
 import { Modal } from './modal';
+import { PokemonData } from 'utils/types';
+import { AppContext } from 'context/appContext';
+import { getLabelColor, pokemons } from 'utils/utils';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import './styles.css';
 
 export const Body = (): JSX.Element => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [startInifinite, setStartInfinite] = useState(false);
   const [data, setData] = useState<Array<PokemonData>>(pokemons.slice(0, 12));
   const [pokemonData, setPokemonData] = useState<PokemonData | undefined>(undefined);
@@ -26,19 +26,19 @@ export const Body = (): JSX.Element => {
   };
 
   const setModalVisibility = (pokemon?: PokemonData): void => {
-    !isVisible ? setPokemonData(pokemon) : setPokemonData(undefined);
-    setIsVisible(!isVisible);
+    !context?.isVisible ? setPokemonData(pokemon) : setPokemonData(undefined);
+    context?.setIsVisible(!context.isVisible);
   };
 
   const handleObserver = useCallback(
     (entries: any): void => {
       const isEnd = data.length !== pokemons.length;
       const [target] = entries as [Record<string, string>];
-      if (target.isIntersecting && startInifinite && isEnd) {
+      if (target.isIntersecting && startInifinite && isEnd && !isFiltered) {
         getNext();
       }
     },
-    [data.length, getNext, startInifinite],
+    [data.length, getNext, isFiltered, startInifinite],
   );
 
   useEffect(() => {
@@ -50,10 +50,27 @@ export const Body = (): JSX.Element => {
     return () => observer.unobserve(element as unknown as Element);
   }, [handleObserver]);
 
+  useEffect(() => {
+    if (context?.type) {
+      if (context?.type === 'nothing') {
+        setIsFiltered(false);
+        setData(pokemons.slice(0, 12));
+      } else {
+        setIsFiltered(true);
+        const filteredPokemons = pokemons.filter((item) => item.type.includes(context?.type));
+        setData(filteredPokemons);
+      }
+    }
+  }, [context?.type]);
+
   return (
     <div className='section'>
-      {isVisible && (
-        <Modal isVisible={isVisible} setIsVisible={setModalVisibility} pokemon={pokemonData} />
+      {context?.isVisible && (
+        <Modal
+          pokemon={pokemonData}
+          isVisible={context?.isVisible}
+          setIsVisible={setModalVisibility}
+        />
       )}
       <div className='columns is-multiline'>
         {data.map((item: PokemonData) => {
@@ -82,7 +99,7 @@ export const Body = (): JSX.Element => {
       </div>
       <div className='columns is-mobile is-multiline is-centered'>
         <div ref={observerElement} className='column is-half has-text-centered'>
-          {!startInifinite && (
+          {!startInifinite && !isFiltered && (
             <button onClick={hideButton} className='button is-dark'>
               See more
             </button>

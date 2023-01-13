@@ -1,5 +1,5 @@
 import { PokemonData } from './types';
-import PkmList from '../data/pokemon.min.json';
+import PkmList from 'data/pokemon.min.json';
 
 export const getLabelColor = (type: string, name: string): JSX.Element => {
   const formatType = type.charAt(0).toUpperCase() + type.slice(1);
@@ -30,6 +30,12 @@ export const pokemons = PkmList.reduce((p: PokemonData[], c) => {
   }
   return p;
 }, []);
+
+export const getTypes = (): string[] => {
+  let asd: string[] = [];
+  pokemons.forEach((item) => item.type.forEach((el) => asd.push(el)));
+  return Array.from(new Set([...asd]));
+};
 
 export const inchesToFeet = (height: number): string => {
   const [feets, inches] = (height / 12).toFixed(2).split('.');

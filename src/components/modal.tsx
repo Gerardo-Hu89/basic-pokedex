@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { PokemonData } from '../utils/types';
-import { getLabelColor, inchesToFeet } from '../utils/utils';
+import { PokemonData } from 'utils/types';
+import { getLabelColor, inchesToFeet } from 'utils/utils';
 
 interface Props {
   isVisible: boolean;
@@ -30,6 +30,13 @@ const Labels = ({ name, label, text }: LabelProps): JSX.Element => (
   </div>
 );
 
+const GetCategories = ({ categories }: { categories: JSX.Element[] }): JSX.Element => (
+  <div className='column is-half'>
+    <span className='is-size-6 has-text-weight-bold'>Type</span>
+    <div className='buttons mt-3'>{categories}</div>
+  </div>
+);
+
 export const Modal = ({ isVisible, setIsVisible, pokemon }: Props): JSX.Element => {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -49,7 +56,6 @@ export const Modal = ({ isVisible, setIsVisible, pokemon }: Props): JSX.Element 
               <div className='rows'>
                 <div className='row'>
                   <div className='columns is-desktop is-vcentered'>
-                    {/* ^^^^^^ is-vcentered */}
                     <div className='has-text-centered column is-full-mobile is-full-tablet is-two-fifths-desktop'>
                       {!isLoaded && (
                         <div
@@ -103,20 +109,14 @@ export const Modal = ({ isVisible, setIsVisible, pokemon }: Props): JSX.Element 
               <div className='rows'>
                 <div className='row'>
                   <div className='columns'>
-                    <div className='column is-half'>
-                      <span className='is-size-6 has-text-weight-bold'>Type</span>
-                      <div className='buttons mt-3'>
-                        {pokemon.type.map((item) => getLabelColor(item, pokemon.name))}
-                      </div>
-                    </div>
-                    <div className='column is-half'>
-                      <span className='is-size-6 has-text-weight-bold'>Weakness</span>
-                      <div className='buttons mt-3'>
-                        {pokemon.weakness.map((item) =>
-                          getLabelColor(item.toLowerCase(), pokemon.name),
-                        )}
-                      </div>
-                    </div>
+                    <GetCategories
+                      categories={pokemon.type.map((item) => getLabelColor(item, pokemon.name))}
+                    />
+                    <GetCategories
+                      categories={pokemon.weakness.map((item) =>
+                        getLabelColor(item.toLowerCase(), pokemon.name),
+                      )}
+                    />
                   </div>
                 </div>
               </div>
