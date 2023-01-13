@@ -1,9 +1,13 @@
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 interface AppContextProps {
+  type: string;
   isOnTop: boolean;
+  isVisible: boolean;
   showButton: boolean;
+  setType: Dispatch<SetStateAction<string>>;
   setIsOnTop: Dispatch<SetStateAction<boolean>>;
+  setIsVisible: Dispatch<SetStateAction<boolean>>;
   setShowButton: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -14,7 +18,9 @@ interface ProviderProps {
 const AppContext = createContext<AppContextProps | null>(null);
 
 const AppProvider = ({ children }: ProviderProps): JSX.Element => {
+  const [type, setType] = useState('nothing');
   const [isOnTop, setIsOnTop] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [showButton, setShowButton] = useState(false);
 
   window.onscroll = () => {
@@ -32,9 +38,13 @@ const AppProvider = ({ children }: ProviderProps): JSX.Element => {
   return (
     <AppContext.Provider
       value={{
+        type,
+        setType,
         isOnTop,
+        isVisible,
         setIsOnTop,
         showButton,
+        setIsVisible,
         setShowButton,
       }}
     >

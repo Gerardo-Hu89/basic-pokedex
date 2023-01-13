@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import { AppContext } from '../context/appContext';
+import { AppContext } from 'context/appContext';
 
 export const GoToTopButton = (): JSX.Element => {
   const context = useContext(AppContext);
 
   return (
     <>
-      {context?.showButton && !context.isOnTop && (
+      {context?.showButton && !context.isOnTop && !context.isVisible && (
         <div
           onClick={() =>
             window.scrollTo({

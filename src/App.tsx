@@ -1,8 +1,9 @@
 import 'bulma/css/bulma.min.css';
-import { Body } from './components/body';
-import { GoToTopButton } from './components/goToTopButton';
-import { Header } from './components/header';
-import { AppProvider } from './context/appContext';
+import { Body } from 'components/body';
+import { Header } from 'components/header';
+import { AppProvider } from 'context/appContext';
+import { GoToTopButton } from 'components/goToTopButton';
+import { Filter } from 'components/filter';
 
 export const App = (): JSX.Element => (
   <div
@@ -14,6 +15,7 @@ export const App = (): JSX.Element => (
     <AppProvider>
       <div className='box container'>
         <Header />
+        <Filter />
         <Body />
         <GoToTopButton />
       </div>
