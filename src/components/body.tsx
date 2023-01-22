@@ -6,12 +6,12 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import './styles.css';
 
 export const Body = (): JSX.Element => {
+  const context = useContext(AppContext);
   const [isFiltered, setIsFiltered] = useState(false);
   const [startInifinite, setStartInfinite] = useState(false);
   const [data, setData] = useState<Array<PokemonData>>(pokemons.slice(0, 12));
   const [pokemonData, setPokemonData] = useState<PokemonData | undefined>(undefined);
   const observerElement = useRef(null);
-  const context = useContext(AppContext);
 
   const getNext = useCallback((): void => {
     const getNextPokemons = pokemons.slice(data.length, data.length + 12);
@@ -20,14 +20,14 @@ export const Body = (): JSX.Element => {
   }, [data]);
 
   const hideButton = (): void => {
-    context?.setShowButton(true);
+    context.setShowButton(true);
     setStartInfinite(true);
     getNext();
   };
 
   const setModalVisibility = (pokemon?: PokemonData): void => {
-    !context?.isVisible ? setPokemonData(pokemon) : setPokemonData(undefined);
-    context?.setIsVisible(!context.isVisible);
+    !context.isVisible ? setPokemonData(pokemon) : setPokemonData(undefined);
+    context.setIsVisible(!context.isVisible);
   };
 
   const handleObserver = useCallback(
@@ -51,24 +51,24 @@ export const Body = (): JSX.Element => {
   }, [handleObserver]);
 
   useEffect(() => {
-    if (context?.type) {
-      if (context?.type === 'nothing') {
+    if (context.type) {
+      if (context.type === 'nothing') {
         setIsFiltered(false);
         setData(pokemons.slice(0, 12));
       } else {
         setIsFiltered(true);
-        const filteredPokemons = pokemons.filter((item) => item.type.includes(context?.type));
+        const filteredPokemons = pokemons.filter((item) => item.type.includes(context.type));
         setData(filteredPokemons);
       }
     }
-  }, [context?.type]);
+  }, [context.type]);
 
   return (
     <div className='section'>
-      {context?.isVisible && (
+      {context.isVisible && (
         <Modal
           pokemon={pokemonData}
-          isVisible={context?.isVisible}
+          isVisible={context.isVisible}
           setIsVisible={setModalVisibility}
         />
       )}
