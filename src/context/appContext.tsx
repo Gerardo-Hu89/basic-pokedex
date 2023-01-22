@@ -15,7 +15,16 @@ interface ProviderProps {
   children: JSX.Element;
 }
 
-const AppContext = createContext<AppContextProps | null>(null);
+const AppContext = createContext<AppContextProps>({
+  isOnTop: false,
+  type: 'nothing',
+  isVisible: false,
+  showButton: false,
+  setType: () => {},
+  setIsOnTop: () => {},
+  setIsVisible: () => {},
+  setShowButton: () => {},
+});
 
 const AppProvider = ({ children }: ProviderProps): JSX.Element => {
   const [type, setType] = useState('nothing');

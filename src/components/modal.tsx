@@ -15,7 +15,7 @@ interface LabelProps {
 }
 
 const Labels = ({ name, label, text }: LabelProps): JSX.Element => (
-  <div className='column is-half labels'>
+  <div className='column labels'>
     <span className='has-text-weight-bold'>{label}</span>
     <br />
     <span className='is-size-4 has-text-black'>
@@ -30,9 +30,15 @@ const Labels = ({ name, label, text }: LabelProps): JSX.Element => (
   </div>
 );
 
-const GetCategories = ({ categories }: { categories: JSX.Element[] }): JSX.Element => (
+const GetCategories = ({
+  categories,
+  label,
+}: {
+  label: string;
+  categories: JSX.Element[];
+}): JSX.Element => (
   <div className='column is-half'>
-    <span className='is-size-6 has-text-weight-bold'>Type</span>
+    <span className='is-size-6 has-text-weight-bold'>{label}</span>
     <div className='buttons mt-3'>{categories}</div>
   </div>
 );
@@ -78,13 +84,13 @@ export const Modal = ({ isVisible, setIsVisible, pokemon }: Props): JSX.Element 
                           <div className='row is-full'>
                             <div className='columns'>
                               <Labels
-                                name={pokemon.name}
                                 label='Height'
+                                name={pokemon.name}
                                 text={inchesToFeet(pokemon.height)}
                               />
                               <Labels
-                                name={pokemon.name}
                                 label='Weight'
+                                name={pokemon.name}
                                 text={`${pokemon.weight} lbs`}
                               />
                             </div>
@@ -93,8 +99,8 @@ export const Modal = ({ isVisible, setIsVisible, pokemon }: Props): JSX.Element 
                             <div className='row is-full'>
                               <div className='columns'>
                                 <Labels
-                                  name={pokemon.name}
                                   label='Abilities'
+                                  name={pokemon.name}
                                   text={pokemon.abilities.map((item) => item)}
                                 />
                               </div>
@@ -110,9 +116,11 @@ export const Modal = ({ isVisible, setIsVisible, pokemon }: Props): JSX.Element 
                 <div className='row'>
                   <div className='columns'>
                     <GetCategories
+                      label='Type'
                       categories={pokemon.type.map((item) => getLabelColor(item, pokemon.name))}
                     />
                     <GetCategories
+                      label='Weaknesses'
                       categories={pokemon.weakness.map((item) =>
                         getLabelColor(item.toLowerCase(), pokemon.name),
                       )}

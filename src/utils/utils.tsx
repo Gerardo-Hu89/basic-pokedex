@@ -37,6 +37,14 @@ export const getTypes = (): string[] => {
   return Array.from(new Set([...asd]));
 };
 
+// "sort by" filters to be implemented in the future
+// export const getSortBy = [
+//   { label: 'Lowest number (First)', value: 'lowest' },
+//   { label: 'Highest number (First)', value: 'highest' },
+//   { label: 'A-Z', value: 'from-a-to-z' },
+//   { label: 'Z-A', value: 'from-z-to-a' },
+// ];
+
 export const inchesToFeet = (height: number): string => {
   const [feets, inches] = (height / 12).toFixed(2).split('.');
   return `${feets}' ${inches}"`;
